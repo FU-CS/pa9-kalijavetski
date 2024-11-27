@@ -7,5 +7,120 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphTest {
+    @Test
+    void testShortestPathNeg(){
+        GraphWeighted g = new GraphWeighted(5);
+        g.addWeightedEdge(0,1,1);
+        g.addWeightedEdge(1,2,3);
+        g.addWeightedEdge(0,3,5);
+        g.addWeightedEdge(3,4,1);
+        g.addWeightedEdge(4,2,-3);
+        int[] path = {0,1,3,5,6};
+        assertArrayEquals(path, g.shortestPath(0));
+    }
+   
+    @Test
+    void testShortestPath(){
+    GraphWeighted g = new GraphWeighted(5);
+        g.addWeightedEdge(0, 1, 2);
+        g.addWeightedEdge(0, 2, 4);
+        g.addWeightedEdge(1, 2, 1);
+        g.addWeightedEdge(1, 3, 7);
+        g.addWeightedEdge(2, 3, 3);
+        g.addWeightedEdge(3, 4, 1);
+        int[] path = {0,2,3,6,7};
+        assertArrayEquals(path, g.shortestPath(0));
+    }
+
+    @Test
+    void testShortestPath_nopath(){
+    GraphWeighted g = new GraphWeighted(5);
+        g.addWeightedEdge(0, 1, 2);
+        g.addWeightedEdge(0, 2, 4);
+        g.addWeightedEdge(1, 2, 1);
+        g.addWeightedEdge(1, 3, 7);
+        g.addWeightedEdge(2, 3, 3);
+        g.addWeightedEdge(4, 4, 1);
+        int[] path = {0,2,3,6,Integer.MAX_VALUE};
+        assertArrayEquals(path, g.shortestPath(0));
+    }
+
+    @Test
+    void testNegativeCycle() {
+        GraphWeighted g = new GraphWeighted(5);
+        g.addWeightedEdge(0, 1, 1);
+        g.addWeightedEdge(1, 2, 1);
+        g.addWeightedEdge(2, 3, 1);
+        g.addWeightedEdge(3, 1, -1); 
+        g.addWeightedEdge(3, 4, 5);
+        assertEquals(true, g.hasNegativeCycle());
+    }
+
+    @Test
+    void testNegativeCycle_positive() {
+        GraphWeighted g = new GraphWeighted(5);
+        g.addWeightedEdge(0, 1, 1);
+        g.addWeightedEdge(1, 2, 1);
+        g.addWeightedEdge(2, 3, 1);
+        g.addWeightedEdge(3, 1, 1); 
+        g.addWeightedEdge(3, 4, 5);
+        assertEquals(true, g.hasNegativeCycle());
+    }
+    @Test
+    void testNegativeCycle_nocycle() {
+        GraphWeighted g = new GraphWeighted(6);
+        g.addWeightedEdge(0, 1, 1);
+        g.addWeightedEdge(1, 2, 1);
+        g.addWeightedEdge(2, 3, 1);
+        g.addWeightedEdge(3, 4, 1); 
+        g.addWeightedEdge(4, 5, 5);
+        assertEquals(false, g.hasNegativeCycle());
+    }
+    @Test
+    void testNegativeCycle_empty() {
+        GraphWeighted g = new GraphWeighted(0);
+        assertEquals(false, g.hasNegativeCycle());
+    }
+
+    @Test
+    void testMinSpanTreePrim(){
+        GraphWeighted g = new GraphWeighted(5);
+        g.addWeightedEdge(0, 1, 2);
+        g.addWeightedEdge(0, 2, 4);
+        g.addWeightedEdge(1, 2, 1);
+        g.addWeightedEdge(1, 3, 7);
+        g.addWeightedEdge(2, 3, 3);
+        g.addWeightedEdge(3, 4, 1);
+        int[] tree = {0,0,1,2,3};
+        assertArrayEquals(tree, g.minimumSpanningTreePrim());
+    }
+
+    @Test
+    void testMinSpanTreePrim_2(){
+        GraphWeighted g = new GraphWeighted(5);
+        g.addWeightedEdge(0, 1, 9);
+        g.addWeightedEdge(0, 2, 1);
+        g.addWeightedEdge(1, 2, 4);
+        g.addWeightedEdge(1, 3, 5);
+        g.addWeightedEdge(2, 3, 7);
+        g.addWeightedEdge(3, 1, 1);
+        g.addWeightedEdge(3, 4, 1);
+        int[] tree = {0,3,0,2,3};
+        assertArrayEquals(tree, g.minimumSpanningTreePrim());
+    }
+
+    @Test
+    void testMinSpanTree(){
+        GraphWeighted g = new GraphWeighted(5);
+        g.addWeightedEdge(0, 1, 2);
+        g.addWeightedEdge(0, 2, 4);
+        g.addWeightedEdge(1, 2, 1);
+        g.addWeightedEdge(1, 3, 7);
+        g.addWeightedEdge(2, 3, 3);
+        g.addWeightedEdge(3, 4, 1);
+        int[] tree = {0,1,2,3,4};
+        assertArrayEquals(tree, g.minimumSpanningTreePrim());
+    }
 
 }
+

@@ -42,3 +42,4 @@ interface Graph {
     public int[] minimumSpanningTreePrim();
 
 }
+
